@@ -1,103 +1,158 @@
-## 📂 Содержание
+## 📂 KOIB RAG - Система поиска по документации КОИБ
 
-| № | Название | Файл | Описание |
-|---|----------|------|----------|
-| 1 | **KOIB RAG Preprocessing** | [`koib_rag_preprocessing.py`](koib_rag_preprocessing.py) | Часть 1 системы RAG для обработки документации КОИБ: извлечение текста, OCR, рисунков, определение моделей |
-| 2 | **KOIB RAG Index Building** | [`koib_rag_index_building.py`](koib_rag_index_building.py) | Часть 2 системы RAG: чанкирование текстов, построение FAISS индекса с multilingual эмбеддингами |
-| 3 | **KOIB RAG Query Engine** | [`koib_rag_query_engine.py`](koib_rag_query_engine.py) | Часть 3 системы RAG: поисковый движок, интерактивные запросы, интеграция с LLM и VK ботом |
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+
+RAG (Retrieval-Augmented Generation) система для обработки и поиска по технической документации КОИБ (Комплексы Обработки Избирательных Бюллетеней).
+
+### Особенности
+
+- **Поддержка моделей**: КОИБ-2010, КОИБ-2017А, КОИБ-2017Б
+- **Обработка форматов**: PDF, DOCX
+- **OCR**: Распознавание текста для сканированных документов (pytesseract + EasyOCR)
+- **Векторный поиск**: FAISS с multilingual эмбеддингами
+- **Извлечение рисунков**: Сохранение изображений с подписями и контекстом
+
+---
+
+## 📑 Содержание
+
+| № | Модуль | Файл | Описание |
+|---|--------|------|----------|
+| 1 | **Preprocessing** | [`src/preprocessing.py`](src/preprocessing.py) | Извлечение текста, OCR, рисунков, определение моделей |
+| 2 | **Index Building** | [`src/index_building.py`](src/index_building.py) | Чанкирование текстов, построение FAISS индекса |
+| 3 | **Query Engine** | [`src/query_engine.py`](src/query_engine.py) | Поисковый движок, интерактивные запросы |
 
 ---
 
 ## 🚀 Быстрый старт
 
-### KOIB RAG Preprocessing
+### Установка зависимостей
 
-Для запуска предобработки документации КОИБ:
+```bash
+pip install -r requirements.txt
+```
 
-1. Подготовьте документы в директории `/content/drive/MyDrive/Koib/docs/`
-2. Запустите скрипт в Colab с GPU
-3. Результаты сохранятся в `/content/drive/MyDrive/Koib/koib_rag_GLM1/`
+Для работы OCR также требуется установить Tesseract:
 
-Подробную документацию см. в секции [KOIB RAG Part 1](#koib-rag-preprocessing-part-1) ниже.
+```bash
+# Ubuntu/Debian
+sudo apt-get install -y tesseract-ocr tesseract-ocr-rus
 
-### KOIB RAG Index Building
+# macOS
+brew install tesseract tesseract-lang
+```
 
-Для построения векторного индекса после предобработки:
+### Настройка окружения
 
-1. Убедитесь, что Part 1 успешно завершён и создан `metadata/text_blocks.json`
-2. Запустите скрипт Part 2 в Colab (рекомендуется GPU для ускорения эмбеддингов)
-3. FAISS индекс сохранится в `/content/drive/MyDrive/Koib/koib_rag_GLM1/faiss_index/`
+Скопируйте `.env.example` в `.env` и настройте пути:
 
-Подробную документацию см. в секции [KOIB RAG Part 2](#koib-rag-index-building-part-2) ниже.
+```bash
+cp .env.example .env
+```
 
-### KOIB RAG Query Engine
+```bash
+# Пути к данным
+KOIB_DOCS_DIR=./data/docs
+KOIB_OUTPUT_DIR=./output
+```
 
-Для запуска поискового движка и интерактивных запросов:
+### Запуск
 
-1. Убедитесь, что Part 1 и Part 2 успешно завершены и создан FAISS индекс
-2. Запустите скрипт Part 3 в Colab
-3. Используйте интерактивный режим для поиска по документации или интеграции с LLM/VK ботом
+#### Часть 1: Предобработка документов
 
-Подробную документацию см. в секции [KOIB RAG Part 3](#koib-rag-query-engine-part-3) ниже.
+```bash
+python -m src.preprocessing
+```
 
----
+#### Часть 2: Построение индекса
 
-## 🛠️ Основные библиотеки
+```bash
+python -m src.index_building
+```
 
-```text
-tensorflow==2.15
-transformers
-datasets
-torch
-scikit-learn
-pandas
-numpy
-matplotlib
-seaborn
-pymupdf
-python-docx
-Pillow
-pytesseract
-easyocr
-tqdm
-langchain-core
-langchain
-langchain-text-splitters
-langchain-community
-langchain-huggingface
-faiss-cpu
-sentence-transformers
-vk-api  # опционально, для VK бота
+#### Часть 3: Поисковый движок
+
+```bash
+python -m src.query_engine
 ```
 
 ---
 
-## 📑 KOIB RAG Preprocessing (Part 1)
-
-### Описание
-
-Часть 1 системы RAG (Retrieval-Augmented Generation) для обработки документации КОИБ (Комплексы Обработки Избирательных Бюллетеней). Скрипт извлекает текст, выполняет OCR для сканированных страниц, извлекает изображения/рисунки и определяет модели устройств.
-
-### Возможности
-
-- **Поддержка форматов**: PDF и DOCX файлы
-- **OCR**: Автоматическое распознавание текста для сканированных документов (pytesseract + EasyOCR)
-- **Определение моделей КОИБ**:
-  - КОИБ-2010
-  - КОИБ-2017А
-  - КОИБ-2017Б
-- **Извлечение рисунков**: Сохранение изображений с подписями и контекстом
-- **Классификация**: Автоматическая категоризация документов по моделям
-- **Логирование**: Детальные отчеты о процессе обработки
-
-### Структура выходных данных
+## 📁 Структура проекта
 
 ```
 Koib/
-├── docs/                    # Входные документы (PDF/DOCX)
-└── koib_rag_GLM1/          # Выходная директория
-    ├── classified/          # Отчеты классификации
-    ├── ocr_results/         # Результаты OCR (текст + изображения)
+├── src/
+│   ├── __init__.py
+│   ├── preprocessing.py      # Часть 1: Предобработка
+│   ├── index_building.py     # Часть 2: Построение индекса
+│   ├── query_engine.py       # Часть 3: Поисковый движок
+│   └── utils.py              # Общие утилиты
+├── notebooks/                 # Jupyter ноутбуки для демонстрации
+├── tests/                     # Юнит-тесты
+├── data/
+│   └── docs/                  # Входные документы (PDF/DOCX)
+├── output/                    # Выходные данные (игнорируется git)
+│   ├── classified/
+│   ├── ocr_results/
+│   ├── figures/
+│   ├── metadata/
+│   │   ├── text_blocks.json
+│   │   ├── figures_index.json
+│   │   └── chunks.json
+│   ├── faiss_index/
+│   │   └── koiss_index/
+│   └── logs/
+├── .env.example               # Пример переменных окружения
+├── .gitignore
+├── requirements.txt
+├── README.md
+└── LICENSE
+```
+
+---
+
+## ⚙️ Конфигурация
+
+### Переменные окружения
+
+| Переменная | Описание | По умолчанию |
+|------------|----------|--------------|
+| `KOIB_DOCS_DIR` | Путь к директории с документами | `./data/docs` |
+| `KOIB_OUTPUT_DIR` | Путь к выходной директории | `./output` |
+| `OCR_DPI` | DPI для OCR | `300` |
+| `CHUNK_SIZE` | Размер чанка для разбиения | `2000` |
+| `CHUNK_OVERLAP` | Перекрытие чанков | `320` |
+| `EMBEDDING_MODEL_NAME` | Модель эмбеддингов | `intfloat/multilingual-e5-large` |
+| `FAISS_SEARCH_K` | Количество результатов поиска | `5` |
+
+---
+
+## 🧪 Тестирование
+
+```bash
+python -m pytest tests/
+```
+
+---
+
+## 📄 Лицензия
+
+Этот проект распространяется под лицензией MIT. См. файл [LICENSE](LICENSE) для деталей.
+
+---
+
+## 🤝 Вклад
+
+Приветствуются issue и pull requests!
+
+---
+
+## 📞 Контакты
+
+По вопросам и предложениям создавайте issue в репозитории.
     ├── figures/             # Извлеченные рисунки (по моделям)
     ├── metadata/            # Метаданные (JSON файлы)
     └── logs/                # Логи обработки
