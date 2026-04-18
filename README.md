@@ -9,21 +9,13 @@
 
 | № | Название | Файл | Описание |
 |---|----------|------|----------|
-| 9 | **KOIB RAG Preprocessing** | [`koib_rag_preprocessing.py`](koib_rag_preprocessing.py) | Часть 1 системы RAG для обработки документации КОИБ: извлечение текста, OCR, рисунков, определение моделей |
-| 10 | **KOIB RAG Index Building** | [`koib_rag_index_building.py`](koib_rag_index_building.py) | Часть 2 системы RAG: чанкирование текстов, построение FAISS индекса с multilingual эмбеддингами |
-| 11 | **KOIB RAG Query Engine** | [`koib_rag_query_engine.py`](koib_rag_query_engine.py) | Часть 3 системы RAG: поисковый движок, интерактивные запросы, интеграция с LLM и VK ботом |
+| 1 | **KOIB RAG Preprocessing** | [`koib_rag_preprocessing.py`](koib_rag_preprocessing.py) | Часть 1 системы RAG для обработки документации КОИБ: извлечение текста, OCR, рисунков, определение моделей |
+| 2 | **KOIB RAG Index Building** | [`koib_rag_index_building.py`](koib_rag_index_building.py) | Часть 2 системы RAG: чанкирование текстов, построение FAISS индекса с multilingual эмбеддингами |
+| 3 | **KOIB RAG Query Engine** | [`koib_rag_query_engine.py`](koib_rag_query_engine.py) | Часть 3 системы RAG: поисковый движок, интерактивные запросы, интеграция с LLM и VK ботом |
 
 ---
 
 ## 🚀 Быстрый старт
-
-### Лабораторные работы 1-8
-
-1. Откройте любой `.py`-файл в Google Colab (File → Upload).
-2. Подключите Google Drive для доступа к датасету `Student_performance_data.csv` (уже прописано в коде).
-3. Запустите все ячейки — никаких дополнительных данных скачивать не нужно.
-
-> ⚠️ Для BERT и VAE рекомендуется включить GPU в Colab (`Runtime → Change runtime type → GPU`).
 
 ### KOIB RAG Preprocessing
 
