@@ -1,67 +1,65 @@
 ```
-# Dependencies
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.venv/
-venv/
+.Python
 env/
-ENV/
-
-# Build and distribution artifacts
-build/
-dist/
-*.egg-info/
-
-# Logs
+venv/
+.venv/
+.ENV
+.venv.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
 *.log
+.pytest_cache/
+.mypy_cache/
+.hypothesis/
 
-# Environment variables
+# Virtual Environment
 .env
 .env.local
 .env.*
 
-# IDE and editor files
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *.tmp
 
-# OS generated files
+# OS
 .DS_Store
 Thumbs.db
-
-# Testing
-.coverage
-htmlcov/
-.coverage.*
-.cache/
-.pytest_cache/
-.mypy_cache/
-
-# Compression and archives
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
 ```
