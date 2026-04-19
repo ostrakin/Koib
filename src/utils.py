@@ -12,6 +12,8 @@ from pathlib import Path
 from typing import Tuple, Dict, List, Any
 
 # Паттерны моделей КОИБ
+KNOWN_MODELS = {"koib2010", "koib2017a", "koib2017b"}
+
 KOIB_MODEL_PATTERNS = {
     "koib2010": [
         r"КОИБ[-\s]?2010", r"КОИБ\s*2010", r"0912054",
@@ -119,7 +121,8 @@ def normalize_model_key(key: str) -> str:
         Нормализованный ключ или 'unknown'
     """
     key = str(key).strip().lower()
-    return key if key in ["koib2010", "koib2017a", "koib2017b"] else "unknown"
+    return key if key in KNOWN_MODELS else "unknown"
+
 
 
 def detect_model_in_text(text: str) -> Tuple[str, float]:

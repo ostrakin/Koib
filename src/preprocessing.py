@@ -88,7 +88,8 @@ def ocr_image(image_pil, lang='rus+eng') -> str:
         text_tess = clean_text(text_tess)
         if len(text_tess) >= 30:
             return text_tess
-    except Exception:
+    except Exception as e:
+        logging.warning(f"Skipped due to error: {e}")
         text_tess = ""
     
     # easyocr fallback
@@ -99,7 +100,8 @@ def ocr_image(image_pil, lang='rus+eng') -> str:
         text_easy = clean_text('\n'.join(results))
         if len(text_easy) >= 20:
             return text_easy
-    except Exception:
+    except Exception as e:
+        logging.warning(f"Skipped due to error: {e}")
         text_easy = ""
     
     return text_tess if len(text_tess) >= len(text_easy) else text_easy
@@ -134,7 +136,8 @@ def detect_scanned_page(page, min_text_chars: int = 50) -> bool:
                     img_area = img.width * img.height
                     if img_area / page_area > SCREENSHOT_AREA_THRESHOLD:
                         return True
-                except Exception:
+                except Exception as e:
+                    logging.warning(f"Skipped due to error: {e}")
                     continue
             return True
         
@@ -142,7 +145,8 @@ def detect_scanned_page(page, min_text_chars: int = 50) -> bool:
             return True
         
         return False
-    except Exception:
+    except Exception as e:
+        logging.warning(f"Error in detect_scanned_page: {e}")
         return False
 
 
@@ -222,7 +226,8 @@ def extract_text_from_pdf(pdf_path: Path) -> Tuple[List[Dict], List[Dict], int]:
                         "width": img.width,
                         "height": img.height
                     })
-                except Exception:
+                except Exception as e:
+                    logging.warning(f"Skipped due to error: {e}")
                     continue
         
         doc.close()
@@ -288,7 +293,8 @@ def extract_text_from_docx(docx_path: Path) -> Tuple[List[Dict], List[Dict]]:
                         "width": img.width,
                         "height": img.height
                     })
-                except Exception:
+                except Exception as e:
+                    logging.warning(f"Skipped due to error: {e}")
                     continue
     
     except Exception as e:
