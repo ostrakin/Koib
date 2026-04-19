@@ -83,7 +83,7 @@ python -m src.query_engine
 ## 📁 Структура проекта
 
 ```
-Koib/
+workspace/
 ├── src/
 │   ├── __init__.py
 │   ├── preprocessing.py      # Часть 1: Предобработка
@@ -101,7 +101,7 @@ Koib/
 │   │   ├── figures_index.json
 │   │   └── chunks.json
 │   ├── faiss_index/
-│   │   └── koiss_index/
+│   │   └── koib_index/
 │   └── logs/
 ├── .gitignore
 ├── requirements.txt
@@ -208,6 +208,8 @@ TEXT_DENSITY_THRESHOLD = 0.35    # Порог плотности текста д
 ### Описание
 
 Часть 2 системы RAG (Retrieval-Augmented Generation) для обработки документации КОИБ. Скрипт загружает результаты предобработки из Part 1, выполняет чанкирование текстов и строит FAISS индекс для быстрого семантического поиска с использованием multilingual эмбеддингов.
+
+**Файл:** `src/index_building.py`
 
 ### Возможности
 
@@ -317,6 +319,8 @@ for doc in results:
 ### Описание
 
 Часть 3 системы RAG (Retrieval-Augmented Generation) для обработки документации КОИБ. Скрипт загружает FAISS индекс и метаданные из Part 2, реализует поисковый движок для семантического поиска, интерактивный режим запросов, интеграцию с LLM (GigaChat и др.) и опционально VK бота для взаимодействия через социальные сети.
+
+**Файл:** `src/query_engine.py`
 
 ### Возможности
 
