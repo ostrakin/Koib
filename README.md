@@ -44,19 +44,19 @@ sudo apt-get install -y tesseract-ocr tesseract-ocr-rus
 brew install tesseract tesseract-lang
 ```
 
-### Настройка окружения
+### Настройка окружения (опционально)
 
-Скопируйте `.env.example` в `.env` и настройте пути:
-
-```bash
-cp .env.example .env
-```
+Проект работает с путями по умолчанию, но вы можете настроить их через переменные окружения:
 
 ```bash
-# Пути к данным
-KOIB_DOCS_DIR=./data/docs
-KOIB_OUTPUT_DIR=./output
+# Опционально: создать .env файл для настройки путей
+export KOIB_DOCS_DIR=./data/docs
+export KOIB_OUTPUT_DIR=./output
 ```
+
+Если переменные не заданы, система автоматически определит пути:
+- В Google Colab: `/content/drive/MyDrive/Koib/...`
+- Локально: `./data/docs` и `./output` относительно корня проекта
 
 ### Запуск
 
@@ -90,8 +90,6 @@ Koib/
 │   ├── index_building.py     # Часть 2: Построение индекса
 │   ├── query_engine.py       # Часть 3: Поисковый движок
 │   └── utils.py              # Общие утилиты
-├── notebooks/                 # Jupyter ноутбуки для демонстрации
-├── tests/                     # Юнит-тесты
 ├── data/
 │   └── docs/                  # Входные документы (PDF/DOCX)
 ├── output/                    # Выходные данные (игнорируется git)
@@ -105,7 +103,6 @@ Koib/
 │   ├── faiss_index/
 │   │   └── koiss_index/
 │   └── logs/
-├── .env.example               # Пример переменных окружения
 ├── .gitignore
 ├── requirements.txt
 ├── README.md
@@ -132,9 +129,17 @@ Koib/
 
 ## 🧪 Тестирование
 
+Базовое тестирование можно выполнить запустив модули с флагом `--help` или проверив импорт:
+
 ```bash
-python -m pytest tests/
+# Проверка импорта всех модулей
+python -c "from src import preprocessing, index_building, query_engine, utils; print('✅ All modules imported successfully')"
+
+# Запуск предобработки с тестовыми данными
+python -m src.preprocessing --help 2>/dev/null || python -m src.preprocessing
 ```
+
+Для полноценного тестирования создайте директорию `tests/` и добавьте юнит-тесты.
 
 ---
 

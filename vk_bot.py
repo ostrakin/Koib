@@ -11,6 +11,7 @@ KOIB RAG - VK Bot Module
 """
 
 import logging
+import random
 import time
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
@@ -225,7 +226,7 @@ class KoibVKBot:
             params = {
                 "user_id": user_id,
                 "message": text,
-                "random_id": int(time.time() * 1000) % (2**64)
+                "random_id": random.randint(1, 2**31 - 1)
             }
             
             if keyboard:
