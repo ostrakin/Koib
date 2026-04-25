@@ -211,7 +211,9 @@ def extract_text_from_pdf(pdf_path: Path) -> Tuple[List[Dict], List[Dict], int]:
                     
                     # Поиск подписи
                     rect = fitz.Rect(img_info[1:5])
-                    nearby_text = page.get_text("text", clip=rect.expand(50, 50, 50, 50))
+                    margin = 50
+                    expanded_rect = fitz.Rect(rect.x0 - margin, rect.y0 - margin, rect.x1 + margin, rect.y1 + margin)
+                    nearby_text = page.get_text("text", clip=expanded_rect)
                     caption = find_figure_caption(nearby_text)
                     
                     figures.append({
